@@ -2,6 +2,18 @@ require 'rubygems'
 require 'ferret'
 require 'svm'
 
+#replace the one in svm.rb
+def _convert_to_svm_node_array(a)  
+  data = svm_node_array(a.size + 1)
+  svm_node_array_set(data,a.size,-1,0)
+  i = 0
+  a.each {|x|
+    svm_node_array_set(data, i, x, 1)
+    i += 1
+  }
+  return data
+end
+
 class FeatureDictionary
   def initialize filename
     @h = {}
@@ -29,8 +41,9 @@ class Classifier
     words = tokenize(text)
     features = words.map {|word| @feature_dictionary[word]}
     features.sort!
-    p features
-    @model.predict(features).to_i
+    features.uniq!
+    features.reject! {|x| x == 0}
+    @model.predict(features)
   end
   
 private
@@ -51,6 +64,7 @@ if $0 == __FILE__
   classifier = Classifier.new "spamfilter"
   p classifier.predict("Getting very excited about the impending trip to the ferret races! And now all planned for term - thanks ms mailmerge!")
   p classifier.predict("Thoughtbot releases update for Paperclip plugin. You can now do things like add rounded corners, invert, rotate and more. http://is.gd/euhE")
+  p classifier.predict('Writing test in Rails is a slippery slope. Start w/ Shoulda, then have to modify reg. tests, then need factory_girl, then... etc. etc. etc.')
 end
  
 
