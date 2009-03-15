@@ -28,6 +28,7 @@ Rails::Initializer.run do |config|
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
   config.gem "nokogiri"
+  config.gem "ar-extensions"
   config.gem 'mislav-will_paginate', :version => '~> 2.2.3', :lib => 'will_paginate', 
     :source => 'http://gems.github.com'
   config.gem 'ferret'

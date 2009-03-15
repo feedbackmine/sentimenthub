@@ -1,0 +1,18 @@
+span.positive {
+  background-color:lightgreen
+}
+
+span.negative {
+  background-color:coral
+}
+
+span.mixed {
+  background-color:yellow
+}
+
+span.compare {
+  background-color:blue
+}
+
+span.other {
+}
