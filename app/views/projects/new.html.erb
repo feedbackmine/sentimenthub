@@ -1,0 +1,11 @@
+<% form_for(@project) do |f| %>
+  <%= f.error_messages %>
+	
+	<%= f.label :name %>
+	<%= f.text_field :name %>
+	
+  <%= f.submit "Create" %>
+<% end %>
+
+<%= link_to 'Back', projects_path %>
+

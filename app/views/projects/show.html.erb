@@ -1,0 +1,7 @@
+<%= @project.name %>
+
+<% @feedbacks.each do |feedback| %>
+  <%= feedback.author %>
+  <%= feedback.url %>
+  <%= feedback.description %>
+<% end %>

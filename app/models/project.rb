@@ -5,4 +5,8 @@ class Project < ActiveRecord::Base
   end
   
   has_many :feedbacks
+  
+  def crawl_url
+    "http://search.twitter.com/search.atom?q=#{name}&rpp=100"
+  end
 end

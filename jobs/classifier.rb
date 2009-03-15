@@ -43,7 +43,7 @@ class Classifier
     features.sort!
     features.uniq!
     features.reject! {|x| x == 0}
-    @model.predict(features)
+    @model.predict(features).to_i
   end
   
 private
@@ -57,6 +57,16 @@ private
       token = stream.next
     end
     return result
+  end
+end
+
+class SpamFilter
+  def initialize
+    @classifier = Classifier.new "spamfilter"
+  end
+  
+  def is_spam?(text)
+    @classifier.predict(text) == 1
   end
 end
 
