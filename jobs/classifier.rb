@@ -75,14 +75,34 @@ class SentimentClassifier
     @classifier = Classifier.new "sentiment"
   end
   
+  OTHER = 0
+  POSITIVE = 1
+  MIXED = 2
+  NEGATIVE = 3
+  
   def process text
+    number_of_positive = 0
+    number_of_negative = 0
     sentences = split_sentence(text)
-    result = ''
+    result = []
     sentences.each {|s|
       i = @classifier.predict(s)
-      result << "<span class='#{int2name(i)}'>#{s}</span>"
+      result << [i, s]
+      number_of_positive += 1 if i == POSITIVE
+      number_of_negative += 2 if i == NEGATIVE
     }
-    return result
+    
+    if number_of_positive > 0  && number_of_negative == 0
+      overall =  POSITIVE
+    elsif number_of_positive == 0 && number_of_negative > 0
+      overall =  NEGATIVE
+    elsif number_of_positive > 0  && number_of_negative > 0
+      overall =  MIXED
+    else
+      overall = OTHER
+    end
+    
+    return [overall, result]
   end
 
 private  
@@ -93,17 +113,6 @@ private
     text.reverse.split(/(?=(?:\A|\s+)[.!?])/).map { |s|
       s.reverse
     }.reverse
-  end
-  
-  def int2name i
-    case i
-    when 1 
-      'negative'
-    when 3
-      'positive'
-    else
-      'other'
-    end
   end
 end
 

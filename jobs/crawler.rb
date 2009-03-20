@@ -11,7 +11,7 @@ require File.dirname(__FILE__) + '/classifier.rb'
 
 class Crawler
 
-  COLUMNS = [:project_id, :created_at, :description, :url]
+  COLUMNS = [:project_id, :created_at, :description, :url, :polarity]
 
   def initialize
     @logger = Logger.new('log/crawler.log')
@@ -31,11 +31,11 @@ class Crawler
       next unless @language_detector.detect(title) == 'en'
       next if @spam_filter.is_spam?(title)
       
-      content = @sentiment_classifier.process(title)
+      polarity, content = @sentiment_classifier.process(title)
       published = Time.zone.parse(entry.at("./published").content)
       link = entry.at("./link")["href"]
       
-      feedbacks << [project_id, published, content, link]
+      feedbacks << [project_id, published, content, link, polarity]
     end
     return feedbacks
   rescue Exception => e

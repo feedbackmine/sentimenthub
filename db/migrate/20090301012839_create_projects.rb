@@ -4,6 +4,7 @@ class CreateProjects < ActiveRecord::Migration
       t.string  :name
       t.string  :url
       t.text    :description
+      t.boolean :featured
       t.boolean :delta
 
       t.timestamps

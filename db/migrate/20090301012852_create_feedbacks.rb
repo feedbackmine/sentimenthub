@@ -5,6 +5,7 @@ class CreateFeedbacks < ActiveRecord::Migration
       t.string  :author
       t.text    :description
       t.integer :project_id
+      t.integer :polarity
       t.boolean :delta
       
       t.timestamps

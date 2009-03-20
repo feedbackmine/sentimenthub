@@ -1,7 +1,7 @@
 <%= @project.name %>
 
 <% @feedbacks.each do |feedback| %>
-  <p><%= feedback.description %></p>
+  <p><%= feedback.html_description %></p>
   <%= feedback.author %>
   <%= link_to 'View', feedback.url %>
   <hr/>
