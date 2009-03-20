@@ -13,7 +13,9 @@ ActiveRecord::Schema.define(:version => 20090301012852) do
 
   create_table "feedbacks", :force => true do |t|
     t.string   "url"
-    t.string   "author"
+    t.string   "author_name"
+    t.string   "author_image"
+    t.string   "author_url"
     t.text     "description"
     t.integer  "project_id"
     t.integer  "polarity"
