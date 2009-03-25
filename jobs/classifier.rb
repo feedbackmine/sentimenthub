@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'ferret'
+require 'tokenizer'
 require 'svm'
 
 #replace the one in svm.rb
@@ -49,12 +49,9 @@ class Classifier
 private
   def tokenize(text)
     result = []
-    analyzer = Ferret::Analysis::StandardAnalyzer.new([], true)
-    stream = analyzer.token_stream(:nouse, text)
-    token = stream.next
-    while token
-      result << token.text
-      token = stream.next
+    tokenizer = Tokenizer.new(text)
+    while token = tokenizer.next
+      result << token.downcase
     end
     return result
   end
