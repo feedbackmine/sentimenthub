@@ -35,7 +35,7 @@ class ProjectsController < ApplicationController
   
   def show
     @project = Project.find params[:id]
-    @feedbacks = @project.feedbacks
+    @feedbacks = @project.feedbacks.paginate :page => params[:page], :per_page => 50, :order => 'created_at DESC'
   end
   
   #def destroy
