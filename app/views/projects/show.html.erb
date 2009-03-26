@@ -1,9 +1,18 @@
+<h1>
 <%= @project.name %>
+</h1>
 
 <% @feedbacks.each do |feedback| %>
-  <p><%= feedback.html_description %></p>
+  <p>
   <image src="<%= feedback.author_image %>" class="top pull-1 left" height="48" width="48"/>
-  <%= link_to feedback.author_name, feedback.author_url %>
+  <%= feedback.html_description %><br/>
+  
+  <small>
+  <%= time_ago_in_words(feedback.created_at) + ' ago' %>
+  By <%= link_to feedback.author_name, feedback.author_url %>
   <%= link_to 'View', feedback.url %>
+  </small>
+  
+  </p>
   <hr/>
 <% end %>
