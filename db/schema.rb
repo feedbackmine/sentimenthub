@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(:version => 20090301012852) do
     t.datetime "updated_at"
   end
 
+  add_index "feedbacks", ["url"], :name => "index_feedbacks_on_url", :unique => true
+
   create_table "projects", :force => true do |t|
     t.string   "name"
     t.string   "url"

@@ -12,6 +12,8 @@ class CreateFeedbacks < ActiveRecord::Migration
       
       t.timestamps
     end
+    
+    add_index :feedbacks, :url, :unique => true
   end
 
   def self.down
