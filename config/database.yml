@@ -1,18 +1,18 @@
 development:
   adapter: mysql
-  database: feedbackmine_dev
+  database: sentimenthub_dev
   host: localhost
   username: root
 
 test:
   adapter: mysql
-  database: feedbackmine_test
+  database: sentimenthub_test
   host: localhost
   username: root
 
 production:
   adapter: mysql
-  database: feedbackmine
+  database: sentimenthub
   host: localhost
   username: root
 
