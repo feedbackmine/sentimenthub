@@ -1,6 +1,26 @@
-<h1>FeedbackMine</h1>
+<h1>SentimentHub</h1>
 
+<p>
+SentimentHub just answers to one simple question: <b>what other people think of an open source project?</b> It helps project memebers to hear the praises and concerns of their users, and helps the users to kown better about a project by reading other
+peopler's opnions.
+</p>
+
+<hr/>
+
+<div class='box'>
+<h6>Featured Projects:</h6>
+<br/>
 <% @projects.each do |project| %>
-  <%= link_to project.name, project_path(project) %>
-  <hr/>
+  <%= link_to project.name, project_path(project) %> : 
+  <%= project.description %>
+  <br/>
 <% end %>
+</div>
+
+<p>
+<small>
+* Right now we are adding new projects to our crawl list steadily but slowly. If you want to see a project being added easier, please <a href="http://twitter.com/feedbackmine">twitter us</a> or <a href="http://getsatisfaction.com/feedbackmine">send us feedback</a>
+</small>
+</p>
+
+
