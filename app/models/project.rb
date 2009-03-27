@@ -4,6 +4,8 @@ class Project < ActiveRecord::Base
     set_property :delta => true
   end
   
+  validates_presence_of :name
+  
   has_many :feedbacks
   
   named_scope :featured, :conditions => {:featured => true}
