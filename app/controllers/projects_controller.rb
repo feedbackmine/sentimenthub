@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   def index
-    @projects = Project.find :all
+    @projects = Project.featured
   end
   
   def new
