@@ -28,8 +28,15 @@ class Crawler
     doc.xpath("//entry").each do |entry|
       title = entry.at("./title").content
       
-      next unless @language_detector.detect(title) == 'en'
-      next if @spam_filter.is_spam?(title)
+      language = @language_detector.detect(title)
+      if language != 'en'
+        puts "#{language}: #{title}"
+        next
+      end
+      if @spam_filter.is_spam?(title)
+        puts "spam: #{title}"
+        next
+      end
       
       polarity, content = @sentiment_classifier.process(title)
       published = Time.zone.parse(entry.at("./published").content)
