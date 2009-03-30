@@ -5,6 +5,9 @@ class CreateProjects < ActiveRecord::Migration
       t.string  :url
       t.text    :description
       t.boolean :featured
+      t.string  :must_have_words
+      t.string  :must_not_have_words
+      
       t.boolean :delta
 
       t.timestamps

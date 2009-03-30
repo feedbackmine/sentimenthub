@@ -3,9 +3,19 @@
 	
 	<%= f.label :name %>
 	<%= f.text_field :name %>
+	<br/>
+
+  <%= f.label :must_have_words %>
+	<%= f.text_field :must_have_words %>
+	<br/>
 	
+	<%= f.label :must_not_have_words %>
+	<%= f.text_field :must_not_have_words %>
+	<br/>
+
   <%= f.label :featured %>
 	<%= f.check_box :featured %>
+	<br/>
 	
   <%= f.submit "Create" %>
 <% end %>
