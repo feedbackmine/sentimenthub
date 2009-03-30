@@ -10,7 +10,8 @@
   <small>
   <%= time_ago_in_words(feedback.created_at) + ' ago' %>
   By <%= link_to feedback.author_name, feedback.author_url %>
-  <%= link_to 'View', feedback.url %>
+  <%= link_to 'View', feedback.url, :popup => true %>
+  <%= link_to 'Reply', feedback.reply_url, :popup => true %>
   </small>
   
   </p>

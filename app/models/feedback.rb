@@ -10,6 +10,13 @@ class Feedback < ActiveRecord::Base
     return result 
   end
   
+  def reply_url 
+    "http://twitter.com/home?status=@#{author_id}"
+  end
+  
+  def author_id
+  end
+  
 private
   def int2name i
     case i
@@ -22,5 +29,10 @@ private
     else #0
       'other'
     end
+  end
+  
+  #'msaleem (Muhammad Saleem)' -> msaleem
+  def author_id
+    author_name.split(' ').first
   end
 end
