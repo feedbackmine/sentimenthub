@@ -35,6 +35,7 @@ class Classifier
     filename = File.expand_path(File.join(File.dirname(__FILE__), name))
     @feature_dictionary = FeatureDictionary.new(filename + ".dict")
     @model = Model.new(filename + ".model")
+    @stop_words = read_lines(filename + ".stopwords")
   end
 
   def predict text
@@ -51,9 +52,17 @@ private
     result = []
     tokenizer = Tokenizer.new(text)
     while token = tokenizer.next
-      result << token.downcase
+      token.downcase!
+      next if @stop_words.has_key?(token)
+      result << token
     end
     return result
+  end
+  
+  def read_lines file
+    h = {}
+    File.readlines(file).map {|l| h[l.rstrip] = true}
+    return h
   end
 end
 
