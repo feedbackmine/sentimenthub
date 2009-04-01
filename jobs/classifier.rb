@@ -36,10 +36,11 @@ class Classifier
     @feature_dictionary = FeatureDictionary.new(filename + ".dict")
     @model = Model.new(filename + ".model")
     @stop_words = read_lines(filename + ".stopwords")
+    @phrases = read_lines(filename + ".phrases")
   end
 
   def predict text
-    words = tokenize(text)
+    words = tokenize(text, @stop_words, @phrases)
     features = words.map {|word| @feature_dictionary[word]}
     features.sort!
     features.uniq!
@@ -48,20 +49,42 @@ class Classifier
   end
   
 private
-  def tokenize(text)
+  def tokenize(text, stop_words, phrases)
     result = []
     tokenizer = Tokenizer.new(text)
     while token = tokenizer.next
       token.downcase!
-      next if @stop_words.has_key?(token)
+      next if stop_words.has_key?(token)
       result << token
     end
+    
+    phrases.empty? ? result : resemble_phrases(result, phrases)
+  end
+  
+  def resemble_phrases(words, phrases)
+    result = []
+    i = 0
+    while i < words.length
+      three_words_phrase = (i < words.length - 2) ? "#{words[i]} #{words[i+1]} #{words[i+2]}" : nil
+      two_words_phrase   = (i < words.length - 1) ? "#{words[i]} #{words[i+1]}" : nil
+      if three_words_phrase && phrases.has_key?(three_words_phrase)
+        result << three_words_phrase
+        i += 3
+      elsif two_words_phrase && phrases.has_key?(two_words_phrase)
+        result << two_words_phrase
+        i += 2
+      else
+        result << words[i]
+        i += 1
+      end
+    end
+    
     return result
   end
   
   def read_lines file
     h = {}
-    File.readlines(file).map {|l| h[l.rstrip] = true}
+    File.readlines(file).map {|l| h[l.rstrip] = true} if File.exist?(file)
     return h
   end
 end
