@@ -1,5 +1,6 @@
 <h1>
 <%= @project.name %>
+<a href="<%= project_url(@project) %>.atom"><img src="http://www.mozilla.org/images/feed-icon-28x28.png"/></a>
 </h1>
 
 <% @feedbacks.each do |feedback| %>

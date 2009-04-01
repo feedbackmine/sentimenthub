@@ -10,6 +10,14 @@ class Feedback < ActiveRecord::Base
     return result 
   end
   
+  def text_description
+    result = ''
+    description.each {|s|
+      result << s[1]
+    }
+    return result 
+  end
+  
   def reply_url 
     "http://twitter.com/home?status=@#{author_id}"
   end
