@@ -5,6 +5,18 @@
 	<%= f.text_field :name %>
 	<br/>
 
+  <%= f.label :url %>
+	<%= f.text_field :url %>
+	<br/>
+
+  <%= f.label :description %>
+	<%= f.text_field :description %>
+	<br/>
+
+  <%= f.label :featured %>
+	<%= f.check_box :featured %>
+	<br/>
+
   <%= f.label :must_have_words %>
 	<%= f.text_field :must_have_words %>
 	<br/>
@@ -13,10 +25,6 @@
 	<%= f.text_field :must_not_have_words %>
 	<br/>
 
-  <%= f.label :featured %>
-	<%= f.check_box :featured %>
-	<br/>
-	
 	<%= f.label :use_spam_filter %>
 	<%= f.check_box :use_spam_filter %>
 	<br/>
