@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20090301012852) do
     t.boolean  "featured"
     t.string   "must_have_words"
     t.string   "must_not_have_words"
+    t.boolean  "use_spam_filter"
     t.boolean  "delta"
     t.datetime "created_at"
     t.datetime "updated_at"
