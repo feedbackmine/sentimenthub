@@ -20,7 +20,7 @@ class Crawler
     @sentiment_classifier = SentimentClassifier.new
   end
   
-  def crawl project_id, url
+  def crawl project_id, url, use_spam_filter
     @logger.info url
     feedbacks = []
     xml = open(url)
@@ -33,7 +33,8 @@ class Crawler
         puts "#{language}: #{title}"
         next
       end
-      if @spam_filter.is_spam?(title)
+      
+      if use_spam_filter && @spam_filter.is_spam?(title)
         puts "spam: #{title}"
         next
       end
@@ -58,7 +59,7 @@ class Crawler
   
   def run
     Project.find(:all).each {|p|
-      feedbacks = crawl(p.id, p.crawl_url)
+      feedbacks = crawl(p.id, p.crawl_url, p.use_spam_filter)
       Feedback.import(COLUMNS, feedbacks, {:validate => false, :timestamps => false, :ignore => true}) unless feedbacks.empty?
     }
   end

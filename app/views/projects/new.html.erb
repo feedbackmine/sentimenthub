@@ -17,7 +17,11 @@
 	<%= f.check_box :featured %>
 	<br/>
 	
-  <%= f.submit "Create" %>
+	<%= f.label :use_spam_filter %>
+	<%= f.check_box :use_spam_filter %>
+	<br/>
+	
+  <%= f.submit "Save" %>
 <% end %>
 
 <%= link_to 'Back', projects_path %>

@@ -7,6 +7,7 @@ class CreateProjects < ActiveRecord::Migration
       t.boolean :featured
       t.string  :must_have_words
       t.string  :must_not_have_words
+      t.boolean :use_spam_filter
       
       t.boolean :delta
 
