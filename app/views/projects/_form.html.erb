@@ -1,33 +1,44 @@
 <% form_for(project) do |f| %>
+  <fieldset>
+
   <%= f.error_messages %>
 	
+	<p>
 	<%= f.label :name %>
-	<%= f.text_field :name %>
-	<br/>
+	<%= f.text_field :name, :class => "text" %>
+	</p>
 
+  <p>
   <%= f.label :url %>
-	<%= f.text_field :url %>
-	<br/>
+	<%= f.text_field :url, :class => "text" %>
+	</p>
 
+  <p>
   <%= f.label :description %>
-	<%= f.text_field :description %>
-	<br/>
+	<%= f.text_field :description, :class => "text" %>
+	</p>
 
+  <p>
   <%= f.label :featured %>
 	<%= f.check_box :featured %>
-	<br/>
+	</p>
 
+  <p>
   <%= f.label :must_have_words %>
-	<%= f.text_field :must_have_words %>
-	<br/>
+	<%= f.text_field :must_have_words, :class => "text" %>
+	</p>
 	
+	<p>
 	<%= f.label :must_not_have_words %>
-	<%= f.text_field :must_not_have_words %>
-	<br/>
+	<%= f.text_field :must_not_have_words, :class => "text" %>
+	</p>
 
+  <p>
 	<%= f.label :use_spam_filter %>
 	<%= f.check_box :use_spam_filter %>
-	<br/>
+	</p>
 	
   <%= f.submit "Save" %>
+  
+  </fieldset>
 <% end %>
