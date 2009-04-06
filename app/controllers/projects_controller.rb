@@ -19,11 +19,11 @@ class ProjectsController < ApplicationController
   end
   
   def edit
-    @project = Project.find(params[:id])
+    @project = Project.find_by_name(params[:id])
   end
   
   def update
-    @project = Project.find params[:id]
+    @project = Project.find_by_name params[:id]
     
     if @project.update_attributes(params[:project])
       flash[:notice] = 'Project was successfully updated.'
@@ -34,7 +34,7 @@ class ProjectsController < ApplicationController
   end
   
   def show
-    @project = Project.find params[:id]
+    @project = Project.find_by_name params[:id]
     @feedbacks = @project.feedbacks.paginate :page => params[:page], :per_page => 50, :order => 'created_at DESC'
   end
   

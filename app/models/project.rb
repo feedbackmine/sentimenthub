@@ -17,4 +17,8 @@ class Project < ActiveRecord::Base
     url += "&nots=#{CGI.escape(must_not_have_words)}" unless must_not_have_words.blank?
     url
   end
+  
+  def to_param  
+    name  
+  end 
 end
