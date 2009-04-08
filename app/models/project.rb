@@ -11,7 +11,7 @@ class Project < ActiveRecord::Base
   
   named_scope :featured, :conditions => {:featured => true}
   
-  def crawl_url
+  def crawl_twitter_url
     url = "http://search.twitter.com/search.atom?q=#{name}&rpp=100"
     url += "&phrase=#{CGI.escape(must_have_words)}" unless must_have_words.blank?
     url += "&nots=#{CGI.escape(must_not_have_words)}" unless must_not_have_words.blank?

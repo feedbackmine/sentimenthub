@@ -1,4 +1,6 @@
 class Feedback < ActiveRecord::Base
+  TWITTER = 1
+
   belongs_to :project
   serialize  :description
   

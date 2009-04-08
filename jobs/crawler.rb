@@ -11,7 +11,7 @@ require File.dirname(__FILE__) + '/classifier.rb'
 
 class Crawler
 
-  COLUMNS = [:project_id, :created_at, :description, :url, :polarity, :author_image, :author_name, :author_url]
+  COLUMNS = [:project_id, :created_at, :description, :url, :polarity, :author_image, :author_name, :author_url, :source, :url_id]
 
   def initialize
     @logger = Logger.new('log/crawler.log')
@@ -46,7 +46,7 @@ class Crawler
       author_name = entry.at("./author/name").content
       author_url = entry.at("./author/uri").content
       
-      feedbacks << [project_id, published, content, link, polarity, author_image, author_name, author_url]
+      feedbacks << [project_id, published, content, link, polarity, author_image, author_name, author_url, Feedback::TWITTER, project_id.to_s + url]
     end
     return feedbacks
   rescue Exception => e
@@ -59,7 +59,7 @@ class Crawler
   
   def run
     Project.find(:all).each {|p|
-      feedbacks = crawl(p.id, p.crawl_url, p.use_spam_filter)
+      feedbacks = crawl(p.id, p.crawl_twitter_url, p.use_spam_filter)
       Feedback.import(COLUMNS, feedbacks, {:validate => false, :timestamps => false, :ignore => true}) unless feedbacks.empty?
     }
   end

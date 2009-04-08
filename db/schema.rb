@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090301012852) do
+ActiveRecord::Schema.define(:version => 20090408050549) do
 
   create_table "feedbacks", :force => true do |t|
     t.string   "url"
@@ -22,9 +22,11 @@ ActiveRecord::Schema.define(:version => 20090301012852) do
     t.boolean  "delta"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "source"
+    t.string   "url_id"
   end
 
-  add_index "feedbacks", ["url"], :name => "index_feedbacks_on_url", :unique => true
+  add_index "feedbacks", ["url_id"], :name => "index_feedbacks_on_url_id", :unique => true
 
   create_table "projects", :force => true do |t|
     t.string   "name"
