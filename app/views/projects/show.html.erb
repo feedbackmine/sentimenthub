@@ -15,6 +15,10 @@
 What the Community is Saying about '<%= @project.name %>' :
 </h3>
 
+<ul class='tabs'>
+  <li><a href="#">Twitter (<%= @feedbacks.size %>)</a></li>
+</ul>
+
 <% @feedbacks.each do |feedback| %>
   <p>
   <image src="<%= feedback.author_image %>" class="top pull-1 left" height="48" width="48"/>
