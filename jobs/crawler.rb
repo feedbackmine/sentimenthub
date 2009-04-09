@@ -46,7 +46,7 @@ class Crawler
       author_name = entry.at("./author/name").content
       author_url = entry.at("./author/uri").content
       
-      feedbacks << [project_id, published, content, link, polarity, author_image, author_name, author_url, Feedback::TWITTER, project_id.to_s + url]
+      feedbacks << [project_id, published, content, link, polarity, author_image, author_name, author_url, Feedback::TWITTER, project_id.to_s + link]
     end
     return feedbacks
   rescue Exception => e
@@ -57,8 +57,8 @@ class Crawler
     return []
   end
   
-  def run
-    Project.find(:all).each {|p|
+  def run projects
+    projects.each {|p|
       feedbacks = crawl(p.id, p.crawl_twitter_url, p.use_spam_filter)
       Feedback.import(COLUMNS, feedbacks, {:validate => false, :timestamps => false, :ignore => true}) unless feedbacks.empty?
     }
@@ -66,4 +66,10 @@ class Crawler
 end
 
 crawler = Crawler.new
-crawler.run
+if ARGV.length == 0
+  crawler.run(Project.find(:all))
+else
+  projects = []
+  ARGV.each {|name| projects << Project.find_by_name(name)}
+  crawler.run projects
+end
