@@ -1,3 +1,5 @@
+#!/usr/bin/env ./script/runner
+
 require 'rubygems'
 require 'tokenizer'
 require 'svm'
@@ -145,7 +147,7 @@ private
   end
 end
 
-if $0 == __FILE__
+def test
   classifier = Classifier.new "spamfilter"
   p classifier.predict("Getting very excited about the impending trip to the ferret races! And now all planned for term - thanks ms mailmerge!")
   p classifier.predict("Thoughtbot releases update for Paperclip plugin. You can now do things like add rounded corners, invert, rotate and more. http://is.gd/euhE")
@@ -154,6 +156,26 @@ if $0 == __FILE__
   classifier = SentimentClassifier.new
   p classifier.process('I love it! it rocks!')
   p classifier.process('so ugly, it sucks')
+end
+
+if ARGV.length == 1 && ARGV[0] == 'test'
+  test
+else ARGV.length == 1 
+  if ARGV[0].to_i > 0
+    feedbacks = [Feedback.find(ARGV[0].to_i)]
+  else
+    feedbacks = Feedback.find_all_by_url(ARGV[0])
+  end
+  
+  feedbacks.each { |feedback|
+    sentiment_classifier = SentimentClassifier.new
+    puts "Before: #{feedback.description}"
+    polarity, content = sentiment_classifier.process(feedback.text_description)
+    feedback.polarity = polarity
+    feedback.description = content
+    feedback.save!
+    puts "After:  #{feedback.description}"
+  }
 end
  
 
