@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
@@ -42,6 +44,8 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'projects'
 
   map.resources :projects
+  map.resources :users
+  map.resource :user_session
 
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'

@@ -1,4 +1,6 @@
 class ProjectsController < ApplicationController
+  before_filter :require_user, :only => [:admin, :destory]
+  
   def index
     @projects = Project.featured
   end
@@ -37,11 +39,12 @@ class ProjectsController < ApplicationController
     @project = Project.find_by_name params[:id]
     @feedbacks = @project.feedbacks.paginate :page => params[:page], :per_page => 50, :order => 'created_at DESC'
   end
-  
-  #def destroy
-  #  @project = Utility.find(params[:id])
-  #  @project.destroy
+    
+  def destroy
+    @project = Utility.find(params[:id])
+    @project.destroy
 
-  #  redirect_to(projects_path)
-  #end
+    redirect_to(projects_path)
+  end
+  
 end
