@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_filter :require_user, :only => [:admin, :destory]
+  before_filter :require_user, :except => [:index, :show]
   
   def index
     @projects = Project.featured
