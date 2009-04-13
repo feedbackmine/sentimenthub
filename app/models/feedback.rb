@@ -1,8 +1,17 @@
 class Feedback < ActiveRecord::Base
   TWITTER = 1
 
+  OTHER    = 0
+  NEGATIVE = 1
+  MIXED    = 2
+  POSITIVE = 3
+  
   belongs_to :project
   serialize  :description
+  
+  named_scope :positive, :conditions => {:polarity => POSITIVE}
+  named_scope :negative, :conditions => {:polarity => NEGATIVE}
+  named_scope :other,    :conditions => {:polarity => OTHER}
   
   def html_description
     result = ''
@@ -30,13 +39,13 @@ class Feedback < ActiveRecord::Base
 private
   def int2name i
     case i
-    when 1 
+    when NEGATIVE
       'negative'
-    when 2
+    when MIXED
       'mixed'
-    when 3
+    when POSITIVE
       'positive'
-    else #0
+    else
       'other'
     end
   end

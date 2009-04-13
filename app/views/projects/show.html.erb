@@ -19,6 +19,16 @@ What the Community is Saying about '<%= @project.name %>' :
   <li><a href="#">Twitter (<%= @feedbacks.size %>)</a></li>
 </ul>
 
+<div class='filter'>
+Sentiment Filter:
+<%= link_to 'All', project_url(@project) %>, 
+<span class='positive'><%= link_to 'Positive', positive_url(@project) %></span>,
+<span class='negative'><%= link_to 'Negative', negative_url(@project) %></span>,
+<span class='other'>   <%= link_to 'Other',    other_url(@project)    %></span>
+</div>
+
+<hr/>
+
 <% @feedbacks.each do |feedback| %>
   <p>
   <image src="<%= feedback.author_image %>" class="top pull-1 left" height="48" width="48"/>

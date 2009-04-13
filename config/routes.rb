@@ -46,6 +46,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :projects
   map.resources :users
   map.resource :user_session
+  
+  map.positive 'projects/:id/positive', :controller => 'projects', :action => 'positive'
+  map.negative 'projects/:id/negative', :controller => 'projects', :action => 'negative'
+  map.other    'projects/:id/other',    :controller => 'projects', :action => 'other'
 
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'

@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_filter :require_user, :except => [:index, :show]
+  before_filter :require_user, :except => [:index, :show, :positive, :nagative, :other]
   
   def index
     @projects = Project.featured
@@ -39,7 +39,25 @@ class ProjectsController < ApplicationController
     @project = Project.find_by_name params[:id]
     @feedbacks = @project.feedbacks.paginate :page => params[:page], :per_page => 50, :order => 'created_at DESC'
   end
-    
+  
+  def positive
+    @project = Project.find_by_name params[:id]
+    @feedbacks = @project.feedbacks.positive.paginate :page => params[:page], :per_page => 50, :order => 'created_at DESC'
+    render :action => :show
+  end
+  
+  def negative
+    @project = Project.find_by_name params[:id]
+    @feedbacks = @project.feedbacks.negative.paginate :page => params[:page], :per_page => 50, :order => 'created_at DESC'
+    render :action => :show
+  end
+  
+  def other
+    @project = Project.find_by_name params[:id]
+    @feedbacks = @project.feedbacks.other.paginate :page => params[:page], :per_page => 50, :order => 'created_at DESC'
+    render :action => :show
+  end
+  
   def destroy
     @project = Utility.find(params[:id])
     @project.destroy
