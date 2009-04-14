@@ -1,5 +1,5 @@
 atom_feed do |feed|
-  feed.title "SentimentHub" 
+  feed.title "SentimentHub - #{@project.name}" 
   feed.updated @feedbacks.first.created_at
   @feedbacks.each do |feedback|
   
