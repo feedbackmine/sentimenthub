@@ -18,6 +18,13 @@ class Project < ActiveRecord::Base
     url
   end
   
+  def crawl_blog_url
+    url = "http://blogsearch.google.com/blogsearch_feeds?hl=en&ie=UTF-8&as_q=#{name}&num=100&output=atom"
+    url += "&as_oq=#{CGI.escape(must_have_words)}" unless must_have_words.blank?
+    url += "&as_eq=#{CGI.escape(must_not_have_words)}" unless must_not_have_words.blank?
+    url
+  end
+  
   def to_param  
     name  
   end 

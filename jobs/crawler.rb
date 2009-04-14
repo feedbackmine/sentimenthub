@@ -20,9 +20,8 @@ class Crawler
     @sentiment_classifier = SentimentClassifier.new
   end
   
-  def crawl project_id, url, use_spam_filter
+  def crawl feedbacks, source, project_id, url, use_spam_filter
     @logger.info url
-    feedbacks = []
     xml = open(url)
     doc = Nokogiri::HTML(xml)
     doc.xpath("//entry").each do |entry|
@@ -42,24 +41,24 @@ class Crawler
       polarity, content = @sentiment_classifier.process(title)
       published = Time.zone.parse(entry.at("./published").content)
       link = entry.at("./link[@rel='alternate']")["href"]
-      author_image = entry.at("./link[@rel='image']")["href"]
+      author_image = entry.at("./link[@rel='image']")["href"] rescue nil
       author_name = entry.at("./author/name").content
       author_url = entry.at("./author/uri").content
       
-      feedbacks << [project_id, published, content, link, polarity, author_image, author_name, author_url, Feedback::TWITTER, project_id.to_s + link]
+      feedbacks << [project_id, published, content, link, polarity, author_image, author_name, author_url, source, project_id.to_s + link]
     end
-    return feedbacks
   rescue Exception => e
     puts e
     puts e.backtrace.join("\n")
     @logger.info e.message
     @logger.info e.backtrace.join("\n")
-    return []
   end
   
   def run projects
     projects.each {|p|
-      feedbacks = crawl(p.id, p.crawl_twitter_url, p.use_spam_filter)
+      feedbacks = []
+      crawl(feedbacks, Feedback::TWITTER, p.id, p.crawl_twitter_url, p.use_spam_filter)
+      crawl(feedbacks, Feedback::BLOG,    p.id, p.crawl_blog_url,    p.use_spam_filter)
       Feedback.import(COLUMNS, feedbacks, {:validate => false, :timestamps => false, :ignore => true}) unless feedbacks.empty?
     }
   end

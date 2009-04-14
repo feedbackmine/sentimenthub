@@ -1,5 +1,6 @@
 class Feedback < ActiveRecord::Base
   TWITTER = 1
+  BLOG    = 2
 
   OTHER    = 0
   NEGATIVE = 1
