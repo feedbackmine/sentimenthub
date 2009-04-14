@@ -18,10 +18,10 @@ What the Community is Saying about '<%= @project.name %>' :
 <div id='tab-set'>
   <ul class='tabs'>
     <li>
-      <%= link_to "Twitter", feedback_url(:id => @project.name, :source => 'twitter', :polarity => 'all') %>
+      <%= link_to "Twitter (#{@twitter_count})", feedback_url(:id => @project.name, :source => 'twitter', :polarity => 'all') %>
     </li>
     <li>
-      <%= link_to "Blog",    feedback_url(:id => @project.name, :source => 'blog',    :polarity => 'all') %>
+      <%= link_to "Blog (#{@blog_count})",    feedback_url(:id => @project.name, :source => 'blog',    :polarity => 'all') %>
     </li>
   </ul>
 </id>

@@ -39,6 +39,8 @@ class ProjectsController < ApplicationController
     @project = Project.find_by_name params[:id]
     @source = params[:source] ? params[:source] : 'twitter'
     @polarity = params[:polarity] ? params[:polarity] : 'all'
+    @twitter_count = @project.feedbacks.sentiment('twitter', 'all').count
+    @blog_count    = @project.feedbacks.sentiment('blog',    'all').count
     @feedbacks = @project.feedbacks.sentiment(@source, @polarity).paginate :page => params[:page], :per_page => 50, :order => 'created_at DESC'
   end
   
