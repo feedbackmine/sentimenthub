@@ -18,5 +18,8 @@ span.other {
 }
 
 .filter {
-  background:#ddd;
+  background:#666;
+  color:#fff;
+  //font-weight:bold;
+  padding:.15em .33em .25em .33em;
 }

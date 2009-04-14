@@ -37,25 +37,9 @@ class ProjectsController < ApplicationController
   
   def show
     @project = Project.find_by_name params[:id]
-    @feedbacks = @project.feedbacks.paginate :page => params[:page], :per_page => 50, :order => 'created_at DESC'
-  end
-  
-  def positive
-    @project = Project.find_by_name params[:id]
-    @feedbacks = @project.feedbacks.positive.paginate :page => params[:page], :per_page => 50, :order => 'created_at DESC'
-    render :action => :show
-  end
-  
-  def negative
-    @project = Project.find_by_name params[:id]
-    @feedbacks = @project.feedbacks.negative.paginate :page => params[:page], :per_page => 50, :order => 'created_at DESC'
-    render :action => :show
-  end
-  
-  def other
-    @project = Project.find_by_name params[:id]
-    @feedbacks = @project.feedbacks.other.paginate :page => params[:page], :per_page => 50, :order => 'created_at DESC'
-    render :action => :show
+    @source = params[:source] ? params[:source] : 'twitter'
+    @polarity = params[:polarity] ? params[:polarity] : 'all'
+    @feedbacks = @project.feedbacks.sentiment(@source, @polarity).paginate :page => params[:page], :per_page => 50, :order => 'created_at DESC'
   end
   
   def destroy

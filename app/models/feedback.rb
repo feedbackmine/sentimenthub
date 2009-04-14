@@ -10,14 +10,14 @@ class Feedback < ActiveRecord::Base
   belongs_to :project
   serialize  :description
   
-  named_scope :positive, :conditions => {:polarity => POSITIVE}
-  named_scope :negative, :conditions => {:polarity => NEGATIVE}
-  named_scope :other,    :conditions => {:polarity => OTHER}
+  named_scope :sentiment, lambda { |source, polarity| 
+    {:conditions => { :source => source_name2int(source), :polarity => polarity_name2int(polarity) } }
+  }
   
   def html_description
     result = ''
     description.each {|s|
-      result << "<span class='#{int2name(s[0])}'>#{s[1]}</span>"
+      result << "<span class='#{polarity_int2name(s[0])}'>#{s[1]}</span>"
     }
     return result 
   end
@@ -38,7 +38,7 @@ class Feedback < ActiveRecord::Base
   end
   
 private
-  def int2name i
+  def polarity_int2name i
     case i
     when NEGATIVE
       'negative'
@@ -48,6 +48,28 @@ private
       'positive'
     else
       'other'
+    end
+  end
+  
+  def self.source_name2int source
+    case source
+    when 'twitter'
+      TWITTER
+    else
+      BLOG
+    end
+  end
+  
+  def self.polarity_name2int name
+    case name
+    when 'negative'
+      NEGATIVE
+    when 'mixed'
+      MIXED
+    when 'positive'
+      POSITIVE
+    else
+      OTHER
     end
   end
   

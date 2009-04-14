@@ -11,7 +11,7 @@ require File.dirname(__FILE__) + '/classifier.rb'
 
 class Crawler
 
-  COLUMNS = [:project_id, :created_at, :description, :url, :polarity, :author_image, :author_name, :author_url, :source, :url_id]
+  COLUMNS = [:project_id, :created_at, :title, :description, :url, :polarity, :author_image, :author_name, :author_url, :source, :url_id]
 
   def initialize
     @logger = Logger.new('log/crawler.log')
@@ -26,26 +26,27 @@ class Crawler
     doc = Nokogiri::HTML(xml)
     doc.xpath("//entry").each do |entry|
       title = entry.at("./title").content
+      content = entry.at("./content").content
       
-      language = @language_detector.detect(title)
+      language = @language_detector.detect(content)
       if language != 'en'
         puts "#{language}: #{title}"
         next
       end
       
-      if use_spam_filter && @spam_filter.is_spam?(title)
+      if use_spam_filter && @spam_filter.is_spam?(content)
         puts "spam: #{title}"
         next
       end
       
-      polarity, content = @sentiment_classifier.process(title)
+      polarity, description = @sentiment_classifier.process(title)
       published = Time.zone.parse(entry.at("./published").content)
       link = entry.at("./link[@rel='alternate']")["href"]
       author_image = entry.at("./link[@rel='image']")["href"] rescue nil
       author_name = entry.at("./author/name").content
       author_url = entry.at("./author/uri").content
       
-      feedbacks << [project_id, published, content, link, polarity, author_image, author_name, author_url, source, project_id.to_s + link]
+      feedbacks << [project_id, published, title, description, link, polarity, author_image, author_name, author_url, source, project_id.to_s + link]
     end
   rescue Exception => e
     puts e

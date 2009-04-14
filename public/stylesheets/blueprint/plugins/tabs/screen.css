@@ -13,7 +13,7 @@
 .tabs { 
 	border-bottom:1px solid #ccc;
 	height:1%; /* fixing IE 6 */
-	margin:0 0 .25em 0;
+	margin:0 0 0 0;
 	min-height:auto;
 	overflow:auto;
 }

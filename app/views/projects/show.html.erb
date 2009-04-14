@@ -15,16 +15,29 @@
 What the Community is Saying about '<%= @project.name %>' :
 </h3>
 
-<ul class='tabs'>
-  <li><a href="#">Twitter (<%= @feedbacks.size %>)</a></li>
-</ul>
+<div id='tab-set'>
+  <ul class='tabs'>
+    <li>
+      <%= link_to "Twitter", feedback_url(:id => @project.name, :source => 'twitter', :polarity => 'all') %>
+    </li>
+    <li>
+      <%= link_to "Blog",    feedback_url(:id => @project.name, :source => 'blog',    :polarity => 'all') %>
+    </li>
+  </ul>
+</id>
 
 <div class='filter'>
-Sentiment Filter:
-<%= link_to 'All', project_url(@project) %>, 
-<span class='positive'><%= link_to 'Positive', positive_url(@project) %></span>,
-<span class='negative'><%= link_to 'Negative', negative_url(@project) %></span>,
-<span class='other'>   <%= link_to 'Other',    other_url(@project)    %></span>
+  Sentiment Filter:
+  <%= link_to 'All', feedback_url(:id => @project.name, :source => @source, :polarity => 'all') %>, 
+  <span class='positive'>
+    <%= link_to 'Positive', feedback_url(:id => @project.name, :source => @source, :polarity => 'positive') %>
+  </span>,
+  <span class='negative'>
+    <%= link_to 'Negative', feedback_url(:id => @project.name, :source => @source, :polarity => 'negative') %>
+  </span>,
+  <span class='other'>   
+    <%= link_to 'Other',    feedback_url(:id => @project.name, :source => @source, :polarity => 'other')    %>
+  </span>
 </div>
 
 <hr/>
@@ -46,3 +59,4 @@ Sentiment Filter:
 <% end %>
 
 <%= will_paginate @feedbacks %>
+
