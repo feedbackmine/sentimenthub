@@ -39,7 +39,7 @@ class Crawler
         next
       end
       
-      polarity, description = @sentiment_classifier.process(title)
+      polarity, description = @sentiment_classifier.process(content)
       published = Time.zone.parse(entry.at("./published").content)
       link = entry.at("./link[@rel='alternate']")["href"]
       author_image = entry.at("./link[@rel='image']")["href"] rescue nil

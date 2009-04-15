@@ -44,14 +44,26 @@ What the Community is Saying about '<%= @project.name %>' :
 
 <% @feedbacks.each do |feedback| %>
   <p>
-  <image src="<%= feedback.author_image %>" class="top pull-1 left" height="48" width="48"/>
+  
+  <% if feedback.author_image %>
+    <image src="<%= feedback.author_image %>" class="top pull-1 left" height="48" width="48"/>
+  <% end %>
+  
+  <% if feedback.source == Feedback::BLOG %>
+    <b><%= feedback.title %><br/></b>
+  <% end %>
+  
   <%= feedback.html_description %><br/>
   
   <small>
   <%= time_ago_in_words(feedback.created_at) + ' ago' %>
   By <%= link_to feedback.author_name, feedback.author_url %>
   <%= link_to 'View', feedback.url, :popup => true %>
-  <%= link_to 'Reply', feedback.reply_url, :popup => true %>
+  
+  <% if feedback.reply_url %>
+    <%= link_to 'Reply', feedback.reply_url, :popup => true %>
+  <% end %>
+  
   </small>
   
   </p>

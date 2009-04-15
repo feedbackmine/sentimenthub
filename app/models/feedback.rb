@@ -30,7 +30,8 @@ class Feedback < ActiveRecord::Base
     return result 
   end
   
-  def reply_url 
+  def reply_url
+    return nil if source == Feedback::BLOG
     "http://twitter.com/home?status=@#{author_id}"
   end
   
