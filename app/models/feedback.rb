@@ -10,8 +10,12 @@ class Feedback < ActiveRecord::Base
   belongs_to :project
   serialize  :description
   
-  named_scope :sentiment, lambda { |source, polarity| 
-    {:conditions => { :source => source_name2int(source), :polarity => polarity_name2int(polarity) } }
+  named_scope :sentiment, lambda { |source, polarity|
+    if polarity == 'all'
+      {:conditions => { :source => source_name2int(source) } }
+    else
+      {:conditions => { :source => source_name2int(source), :polarity => polarity_name2int(polarity) } }
+    end
   }
   
   def html_description
