@@ -9,6 +9,21 @@ require 'ar-extensions/adapters/mysql'
 require 'ar-extensions/import/mysql'
 require File.dirname(__FILE__) + '/classifier.rb'
 
+class UrlFilter
+  RULES = [
+    /^http://twitter.pbwiki.com/Apps\./
+  ]
+  
+  def should_ignore url
+    RULES.each {|rule|
+      if url =~ rule
+        return true
+      end
+    }
+    return false
+  end
+end
+
 class Crawler
 
   COLUMNS = [:project_id, :created_at, :title, :description, :url, :polarity, :author_image, :author_name, :author_url, :source, :url_id]
@@ -18,6 +33,7 @@ class Crawler
     @language_detector = LanguageDetector.new
     @spam_filter = SpamFilter.new
     @sentiment_classifier = SentimentClassifier.new
+    @url_filter = UrlFilter.new
   end
   
   def crawl feedbacks, source, project_id, url, use_spam_filter
@@ -45,6 +61,11 @@ class Crawler
       author_image = entry.at("./link[@rel='image']")["href"] rescue nil
       author_name = entry.at("./author/name").content
       author_url = entry.at("./author/uri").content
+      
+      if source == Feedback::BLOG && @url_filter.should_filter(link)
+        puts "urlfilter: #{title}"
+        next
+      end
       
       feedbacks << [project_id, published, title, description, link, polarity, author_image, author_name, author_url, source, project_id.to_s + link]
     end
