@@ -9,6 +9,10 @@
   <br/>
   Description: <%= @project.description %>
   </p>
+  
+  <% if current_user %>
+    Loggedin as : <%= current_user.login %>
+  <% end %>
 </div>
 
 <h3>
@@ -62,6 +66,10 @@ What the Community is Saying about '<%= @project.name %>' :
   
   <% if feedback.reply_url %>
     <%= link_to 'Reply', feedback.reply_url, :popup => true %>
+  <% end %>
+  
+  <% if current_user %>
+    <%= link_to 'Delete', {:id => feedback, :controller => 'feedbacks', :action => 'destroy'}, :method => :delete %>
   <% end %>
   
   </small>

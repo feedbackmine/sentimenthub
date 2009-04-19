@@ -44,6 +44,7 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'projects'
 
   map.resources :projects
+  map.resources :feedbacks
   map.resources :users
   map.resource :user_session
   
