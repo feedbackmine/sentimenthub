@@ -11,7 +11,7 @@ require File.dirname(__FILE__) + '/classifier.rb'
 
 class UrlFilter
   RULES = [
-    /^http://twitter.pbwiki.com/Apps\./
+    /^http:\/\/twitter.pbwiki.com\/Apps\./
   ]
   
   def should_ignore url
@@ -21,6 +21,21 @@ class UrlFilter
       end
     }
     return false
+  end
+end
+
+class AuthorFilter
+  LIST = [
+    '_snax (_snax)'
+  ]
+  
+  def initialize
+    @h = {}
+    LIST.each {|a| @h[a] = true} 
+  end
+  
+  def should_ignore author
+    @h[author]  
   end
 end
 
@@ -34,6 +49,7 @@ class Crawler
     @spam_filter = SpamFilter.new
     @sentiment_classifier = SentimentClassifier.new
     @url_filter = UrlFilter.new
+    @author_filter = AuthorFilter.new
   end
   
   def crawl feedbacks, source, project_id, url, use_spam_filter
@@ -62,8 +78,11 @@ class Crawler
       author_name = entry.at("./author/name").content
       author_url = entry.at("./author/uri").content
       
-      if source == Feedback::BLOG && @url_filter.should_filter(link)
+      if source == Feedback::BLOG && @url_filter.should_ignore(link)
         puts "urlfilter: #{title}"
+        next
+      elsif source == Feedback::TWITTER && @author_filter.should_ignore(author_name)
+        puts "authorfilter: #{title}"
         next
       end
       
@@ -77,10 +96,10 @@ class Crawler
   end
   
   def run projects
-    projects.each {|p|
+    projects.each {|project|
       feedbacks = []
-      crawl(feedbacks, Feedback::TWITTER, p.id, p.crawl_twitter_url, p.use_spam_filter)
-      crawl(feedbacks, Feedback::BLOG,    p.id, p.crawl_blog_url,    p.use_spam_filter)
+      crawl(feedbacks, Feedback::TWITTER, project.id, project.crawl_twitter_url, project.use_spam_filter)
+      crawl(feedbacks, Feedback::BLOG,    project.id, project.crawl_blog_url,    project.use_spam_filter)
       Feedback.import(COLUMNS, feedbacks, {:validate => false, :timestamps => false, :ignore => true}) unless feedbacks.empty?
     }
   end
