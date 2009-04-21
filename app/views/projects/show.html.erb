@@ -69,7 +69,8 @@ What the Community is Saying about '<%= @project.name %>' :
   <% end %>
   
   <% if current_user %>
-    <%= link_to 'Delete', {:id => feedback, :controller => 'feedbacks', :action => 'destroy'}, :method => :delete %>
+    <%= link_to 'Delete', {:controller => 'feedbacks', :action => 'destroy', :id => feedback}, :method => :delete %>
+    <%= link_to 'Reclassify', {:controller => 'feedbacks', :action => 'edit', :id => feedback} %>
   <% end %>
   
   </small>

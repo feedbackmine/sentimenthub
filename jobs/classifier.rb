@@ -168,12 +168,8 @@ else ARGV.length == 1
   end
   
   feedbacks.each { |feedback|
-    sentiment_classifier = SentimentClassifier.new
     puts "Before: #{feedback.description}"
-    polarity, content = sentiment_classifier.process(feedback.text_description)
-    feedback.polarity = polarity
-    feedback.description = content
-    feedback.save!
+    feedback.reclassify
     puts "After:  #{feedback.description}"
   }
 end

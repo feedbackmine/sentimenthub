@@ -42,6 +42,15 @@ class Feedback < ActiveRecord::Base
   def author_id
   end
   
+  def reclassify
+    require RAILS_ROOT + '/jobs/classifier.rb'
+    sentiment_classifier = SentimentClassifier.new
+    polarity, content = sentiment_classifier.process(self.text_description)
+    self.polarity = polarity
+    self.description = content
+    self.save!
+  end
+  
 private
   def polarity_int2name i
     case i

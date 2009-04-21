@@ -7,4 +7,12 @@ class FeedbacksController < ApplicationController
 
     redirect_to :back
   end
+  
+  #reclassify
+  def edit
+    @feedback = Feedback.find(params[:id])
+    @feedback.reclassify
+    
+    redirect_to :back
+  end
 end
