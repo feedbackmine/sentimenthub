@@ -28,7 +28,8 @@ end
 
 class AuthorFilter
   LIST = [
-    '_snax (_snax)'
+    '_snax (_snax)',
+    'commit_log (commit_log)'
   ]
   
   def initialize
