@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090414044947) do
+ActiveRecord::Schema.define(:version => 20090423051419) do
 
   create_table "feedbacks", :force => true do |t|
     t.string   "url"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(:version => 20090414044947) do
     t.integer  "source"
     t.string   "url_id"
     t.string   "title"
+    t.boolean  "hidden"
   end
 
   add_index "feedbacks", ["url_id"], :name => "index_feedbacks_on_url_id", :unique => true

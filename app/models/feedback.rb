@@ -12,9 +12,9 @@ class Feedback < ActiveRecord::Base
   
   named_scope :sentiment, lambda { |source, polarity|
     if polarity == 'all'
-      {:conditions => { :source => source_name2int(source) } }
+      {:conditions => { :source => source_name2int(source), :hidden => nil } }
     else
-      {:conditions => { :source => source_name2int(source), :polarity => polarity_name2int(polarity) } }
+      {:conditions => { :source => source_name2int(source), :hidden => nil, :polarity => polarity_name2int(polarity) } }
     end
   }
   
