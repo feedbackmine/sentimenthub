@@ -11,7 +11,9 @@ require File.dirname(__FILE__) + '/classifier.rb'
 
 class UrlFilter
   RULES = [
-    /^http:\/\/twitter.pbwiki.com\/Apps\./
+    /^http:\/\/twitter\.pbwiki\.com\/Apps\./ ,
+    /^http:\/\/github\.com\// ,
+    /^http:\/\/.*\.lighthouseapp\.com\/projects\//
   ]
   
   def should_ignore url
