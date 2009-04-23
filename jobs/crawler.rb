@@ -58,7 +58,7 @@ class Crawler
   def crawl feedbacks, source, project_id, url, use_spam_filter
     @logger.info url
     xml = open(url)
-    doc = Nokogiri::HTML(xml)
+    doc = Nokogiri::HTML(xml, nil, 'utf-8')
     doc.xpath("//entry").each do |entry|
       title = entry.at("./title").content
       content = entry.at("./content").content
