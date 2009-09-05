@@ -29,7 +29,7 @@ Rails::Initializer.run do |config|
   # config.gem "aws-s3", :lib => "aws/s3"
   config.gem "nokogiri"
   config.gem "ar-extensions"
-  config.gem 'mislav-will_paginate', :version => '~> 2.2.3', :lib => 'will_paginate', 
+  config.gem 'mislav-will_paginate', :version => '>= 2.2.3', :lib => 'will_paginate', 
     :source => 'http://gems.github.com'
   config.gem 'tomz-libsvm-ruby-swig', :lib => 'svm', :source => 'http://gems.github.com'
   config.gem 'feedbackmine-tokenizer', :lib => 'tokenizer', :source => 'http://gems.github.com'
